@@ -4,4 +4,8 @@ from django.views.generic import TemplateView
 
 
 class Home(TemplateView):
-    template_name = 'admin/index.html'
+    template_name = 'core/index-2.html'
+    extra_context = {
+        'context': "context goes here!",
+        'name': "kuch nahi"
+    }

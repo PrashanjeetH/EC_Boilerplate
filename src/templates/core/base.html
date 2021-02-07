@@ -16,7 +16,7 @@
     <!--== Google Fonts ==-->
     <link href="https://fonts.googleapis.com/css?family=Oswald:400,500,600,700%7CPoppins:400,400i,500,600&display=swap" rel="stylesheet">
 
-    <!-- build:css {% static "core/css/app.min.css -->
+    <!-- build:css "core/css/app.min.css" -->
     <!--== Leaflet Min CSS ==-->
     <link href="{% static "core/css/leaflet.min.css" %}" rel="stylesheet" />
     <!--== Nice Select Min CSS ==-->
@@ -37,15 +37,11 @@
     <link href="{% static "core/css/bootstrap.min.css" %}" rel="stylesheet" />
 
     <!--== Main Style CSS ==-->
-    <link href="{% static "core/css/style.css" %}" %}" rel="stylesheet" />
+    <link href="{% static "core/css/style.css" %}"  rel="stylesheet" />
     <!--== Helper Min CSS ==-->
     <link href="{% static "core/css/helper.min.css" %}" rel="stylesheet" />
     <!-- endbuild -->
 
-    <!--[if lt IE 9]>
-<script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js" %}"></script>
-<script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js" %}"></script>
-<![endif]-->
 </head>
 
 <body>
@@ -930,7 +926,10 @@
                                 <div class="newsletter-form-wrap">
                                     <form action="#" method="post">
                                         <div class="form-content">
-                                            <input type="email" placeholder="Enter your email here" />
+                                            <label></label>
+                                            <label>
+                                                <input type="email" placeholder="Enter your email here" />
+                                            </label>
                                             <button class="btn-newsletter">Submit</button>
                                         </div>
                                     </form>
@@ -1105,8 +1104,8 @@
 
 
     <!--=======================Javascript============================-->
-    <!-- build:js {% static "core/js/app.min.js -->
-    <!--=== Modernizr Min Js ===-->
+    <!-- build:js "core/js/app.min.js" -->
+    <!-- === Modernizr Min Js ===-->
     <script src="{% static "core/js/modernizr-3.6.0.min.js" %}"></script>
     <!--=== jQuery Min Js ===-->
     <script src="{% static "core/js/jquery-3.3.1.min.js" %}"></script>
@@ -1128,7 +1127,6 @@
     <script src="{% static "core/js/leaflet.min.js" %}"></script>
     <!--=== Countdown Js ===-->
     <script src="{% static "core/js/countdown.js" %}"></script>
-
     <!--=== Active Js ===-->
     <script src="{% static "core/js/active.js" %}"></script>
     <!-- endbuild -->
