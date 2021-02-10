@@ -32,8 +32,9 @@ class Item(models.Model):
                               max_length=1,
                               default='P')
     slug = models.SlugField()
-    discount_price = models.FloatField(blank=True, null=True)
+    discount_price = models.FloatField(blank=True)
     description = models.TextField(max_length=300)
+    image = models.ImageField()
 
     class Meta:
         pass
@@ -50,6 +51,7 @@ class Item(models.Model):
         return reverse("core:add_to_cart", kwargs={
             'slug': self.slug
         })
+
     def get_remove_from_cart(self):
         return reverse("core:remove_from_cart", kwargs={
             'slug': self.slug
