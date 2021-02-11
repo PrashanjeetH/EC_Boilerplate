@@ -6,7 +6,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -20,8 +19,12 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(max_length=120)),
                 ('price', models.FloatField()),
-                ('category', models.CharField(choices=[('S', 'Shirts'), ('TS', 'T-Shirts'), ('OW', 'Out Sports')], default='S', max_length=2)),
-                ('labels', models.CharField(choices=[('P', 'primary'), ('S', 'secondary'), ('D', 'danger')], default='P', max_length=1)),
+                ('category',
+                 models.CharField(choices=[('S', 'Shirts'), ('TS', 'T-Shirts'), ('OW', 'Out Sports')], default='S',
+                                  max_length=2)),
+                ('labels',
+                 models.CharField(choices=[('P', 'primary'), ('S', 'secondary'), ('D', 'danger')], default='P',
+                                  max_length=1)),
                 ('slug', models.SlugField()),
                 ('discount_price', models.FloatField(blank=True)),
                 ('description', models.TextField(max_length=300)),

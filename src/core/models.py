@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django_countries.fields import CountryField
 from django.shortcuts import reverse
+
 # Create your models here.
 
 ADDRESS_CHOICES = (
@@ -60,10 +61,10 @@ class Item(models.Model):
 
 class OrderItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
-                             on_delete=models.CASCADE,)
+                             on_delete=models.CASCADE, )
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
-    ordered = models.BooleanField(default=False,)
+    ordered = models.BooleanField(default=False, )
 
     class Meta:
         pass
@@ -71,16 +72,37 @@ class OrderItem(models.Model):
     def __str__(self):
         return f"{self.item}"
 
+    def get_total_value(self):
+        return self.quantity * self.item.price
+
+    def get_discount_value(self):
+        return self.quantity * self.item.discount_price
+
+    def get_amount_saved(self):
+        return self.get_total_value() - self.get_discount_value()
+
+    def get_final_price(self):
+        if self.item.discount_price:
+            return self.get_discount_value()
+        else:
+            return self.get_total_value()
+
 
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     items = models.ManyToManyField(OrderItem)
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField()
-    ordered = models.BooleanField(default=False,)
+    ordered = models.BooleanField(default=False, )
 
     class Meta:
         pass
 
     def __str__(self):
         return f"{self.user.username}  {self.ordered_date}"
+
+    def get_total(self):
+        total = 0
+        for order_item in self.items.all():
+            total += order_item.get_final_price()
+        return total

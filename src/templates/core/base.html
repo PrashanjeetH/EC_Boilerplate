@@ -1,77 +1,80 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>Dj-EC Boilerplate | {{ title }}</title>
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
-  <!-- Bootstrap core CSS -->
-  <link href="{% static "core/css/bootstrap.min.css" %}" rel="stylesheet">
-  <!-- Material Design Bootstrap -->
-  <link href="{% static "core/css/mdb.min.css" %}" rel="stylesheet">
-  <!-- Your custom styles (optional) -->
-  <link href="{% static "core/css/style.min.css" %}" rel="stylesheet">
-  <style type="text/css">
-    html,
-    body,
-    header,
-    .carousel {
-      height: 60vh;
-    }
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% block head_title %}{% endblock %}</title>
+    {% block extra_head %}
+    {% endblock %}  <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="{% static "core/css/bootstrap.min.css" %}" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="{% static "core/css/mdb.min.css" %}" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="{% static "core/css/style.min.css" %}" rel="stylesheet">
+    <style type="text/css">
+        html,
+        body,
+        header,
+        .carousel {
+            height: 60vh;
+        }
 
-    @media (max-width: 740px) {
+        @media (max-width: 740px) {
 
-      html,
-      body,
-      header,
-      .carousel {
-        height: 100vh;
-      }
-    }
+            html,
+            body,
+            header,
+            .carousel {
+                height: 100vh;
+            }
+        }
 
-    @media (min-width: 800px) and (max-width: 850px) {
+        @media (min-width: 800px) and (max-width: 850px) {
 
-      html,
-      body,
-      header,
-      .carousel {
-        height: 100vh;
-      }
-    }
+            html,
+            body,
+            header,
+            .carousel {
+                height: 100vh;
+            }
+        }
 
-  </style>
+    </style>
 </head>
 
 <body>
-  {% include 'core/navbar.html' %}
-  {% if messages %}
-      <div class="mt-5 pt-4">
+
+{% include 'core/navbar.html' %}
+
+{% if messages %}
+    <div class="mt-5 pt-4">
         {% for message in messages %}
             <div class="alert alert-{{ message.tags | default:"info" }} alert-dismissible fade show">
                 {{ message }}
-            <button class="close" type="button" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+                <button class="close" type="button" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
         {% endfor %}
-      </div>
-  {% endif %}
+    </div>
+{% endif %}
 
 
-  {% block content %}
-  {% endblock %}
+{% block content %}
+{% endblock %}
 
-  {% include 'core/footer.html' %}
-  {% include 'core/scripts.html' %}
-  <script type="text/javascript">
+{% block extra_body %}
+{% endblock %}
+{% include 'core/footer.html' %}
+{% include 'core/scripts.html' %}
+<script type="text/javascript">
     new WOW().init();
 
-  </script>
+</script>
 </body>
-
 </html>

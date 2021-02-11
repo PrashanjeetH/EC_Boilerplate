@@ -613,7 +613,7 @@
 
 // Custom file input browser support
 @each $lang,
-  $text in $custom-mdb-file-text {
+$text in $custom-mdb-file-text {
   .custom-file-input {
     &:lang(#{$lang}) {
       & ~ .custom-file-label {
