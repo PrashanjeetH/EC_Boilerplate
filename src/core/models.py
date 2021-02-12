@@ -22,6 +22,12 @@ LABELS = (
     ('D', 'danger'),
 )
 
+PAYMENT_OPTIONS = (
+    ('P', 'PayPal'),
+    ('D', 'Debit Card'),
+    ('C', 'Credit Card'),
+)
+
 
 class Item(models.Model):
     title = models.CharField(max_length=120)
@@ -88,12 +94,27 @@ class OrderItem(models.Model):
             return self.get_total_value()
 
 
+class BillingAddress(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    street = models.CharField(max_length=120)
+    landmark = models.CharField(max_length=120, blank=True, null=True)
+    country = CountryField(multiple=False)
+    zip = models.IntegerField()
+
+    class Meta:
+        pass
+
+    def __str__(self):
+        return self.user.username
+
+
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     items = models.ManyToManyField(OrderItem)
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField()
     ordered = models.BooleanField(default=False, )
+    billing_address = models.ForeignKey(BillingAddress, on_delete=models.SET_NULL, blank=True, null=True)
 
     class Meta:
         pass
@@ -106,3 +127,5 @@ class Order(models.Model):
         for order_item in self.items.all():
             total += order_item.get_final_price()
         return total
+
+

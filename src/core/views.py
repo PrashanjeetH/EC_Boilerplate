@@ -7,6 +7,9 @@ from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from core.forms import CheckoutForm
+
+
 # Create your views here.
 
 
@@ -39,13 +42,32 @@ class OrderSummaryView(LoginRequiredMixin, View):
     template_name = 'core/ordersummary.html'
 
 
-@login_required
-def checkout(requests):
-    context = {
-        'items': Item.objects.all(),
-        'title': 'Checkout',
-    }
-    return render(requests, "core/checkout-page.html", context=context)
+class CheckoutView(View):
+    def get(self, *args, **kwargs):
+        form = CheckoutForm()
+        context = {
+            'form': form,
+        }
+        return render(self.request, 'core/checkout-page.html', context=context)
+
+    def post(self, *args, **kwargs):
+        form = CheckoutForm(self.request.POST or None)
+        if form.is_valid():
+            street = form.cleaned_data['street']
+            landmark = form.cleaned_data['landmark']
+            country = form.cleaned_data['country']
+            zip = form.cleaned_data['zip']
+            same_bill_address = form.cleaned_data['same_bill_address']
+            save_info = form.cleaned_data['save_info']
+            payment_option = form.cleaned_data['payment_option']
+            print(street,
+landmark,
+country,
+zip,
+same_bill_address,
+save_info,
+payment_option)
+        return redirect("core:checkout")
 
 
 @login_required
@@ -97,7 +119,7 @@ def remove_from_cart(request, slug):
             return redirect('core:order-summary')
         else:
             messages.warning(request, "This item is not in your cart")
-            return redirect("core:order-summary")
+            return redirect("core:products", slug=slug)
     else:
         messages.error(request, "You do not have an active order.")
         return redirect('core:order-summary')
@@ -117,11 +139,12 @@ def remove_item_from_cart(request, slug):
                 user=request.user,
                 ordered=False,
             )
-            if order_item.quantity > 0:
+            print(order_item.quantity)
+            if order_item.quantity <= 1:
+                order.items.remove(order_item)
+            else:
                 order_item.quantity -= 1
                 order_item.save()
-            else:
-                order.items.remove(order_item)
             messages.success(request, "This item is removed from your cart")
             return redirect('core:order-summary')
         else:
